@@ -6,21 +6,29 @@ const Button = ({ handleClick, text }) => (
 )
 
 const App = (props) => {
+  const [selected, setSelected] = useState(0)
+
   const max = anecdotes.length
+  const [array, setArray] = useState(Array(max).fill(0))
 
   function getRandomNumber(maximum) {
     return Math.floor(Math.random()*maximum)
-  }
+  }  
 
-  const [selected, setSelected] = useState(getRandomNumber(max))
+  const setVote = () => {
+    const copy = [...array]
+    copy[selected] += 1
+    setArray(copy)
+  }
 
   const handleClick = () => {
     setSelected(getRandomNumber(max))
   }
-  
+
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
+      <Button handleClick={setVote} text="vote"/>
       <Button handleClick={handleClick} text="next anecdote"/>
     </div>
   )
