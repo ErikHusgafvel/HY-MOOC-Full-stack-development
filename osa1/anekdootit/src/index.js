@@ -25,11 +25,19 @@ const App = (props) => {
     setSelected(getRandomNumber(max))
   }
 
+  const mostVotes = [...array].sort((a,b) => b-a)[0]
+  const mostPopular = array.indexOf(mostVotes)
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
+      <p>has {array[selected]} votes</p>
       <Button handleClick={setVote} text="vote"/>
-      <Button handleClick={handleClick} text="next anecdote"/>
+      <Button handleClick={handleClick} text="next anecdote"/>      
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[mostPopular]}</p>
+      <p>has {array[mostPopular]} votes</p>
     </div>
   )
 }
