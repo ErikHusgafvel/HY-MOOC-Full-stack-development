@@ -14,6 +14,18 @@ const Display = ({ value, text }) => (
   <p>{text} {value}</p>
 )
 
+const Statistics = ({good, bad, all, avg, pos}) => {
+  let average = isNaN((good-bad)/all) ? 0 : (good-bad)/all
+  let positive = isNaN(good/all) ? 0 : good/all*100 + " %"
+  return (
+    <>
+      <p>{avg} {average}</p>
+      <p>{pos} {positive}</p>
+    </>
+  )
+
+}
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -33,10 +45,6 @@ const App = () => {
     setBad(valueBad + 1)
   }
   
-  // calculate avg and pos% every time App is re-rendered
-  let avg = isNaN((good-bad)/all) ? 0 : (good-bad)/all
-  let pos = isNaN(good/all) ? 0 : good/all*100 + " %"
-
   return (
     <div>
       <Header text="give feedback" />
@@ -54,8 +62,7 @@ const App = () => {
       <Display value={neutral} text="neutral"/>
       <Display value={bad} text="bad"/>
       <Display value={all} text="all" />
-      <Display value={avg} text="average" />
-      <Display value={pos} text="positive" />
+      <Statistics good={good} bad={bad} all={all} avg="average" pos="positive" />
     </div>
   )
 }
