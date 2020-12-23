@@ -11,21 +11,27 @@ const Button = ({ handle, text }) => (
   
 
 const Display = ({ value, text }) => (
-  <p>{text} {value}</p>
+  <tr>
+    <td>{text}</td>
+    <td> {value}</td>
+  </tr>
 )
 
 const StatisticLine = ({text, value}) => (
-  <p>{text} {value}</p>
+  <tr>
+    <td>{text}</td>
+    <td> {value}</td>
+  </tr>
 )
 
 const Statistics = ({good, bad, all }) => {
   let average = isNaN((good-bad)/all) ? 0 : (good-bad)/all
   let positive = isNaN(good/all) ? 0 : good/all*100 + " %"
   return (
-    <div>
-      <StatisticLine text="average" value={average} />
+    <>
+      <StatisticLine text="average" value=  {average} />
       <StatisticLine text="positive" value={positive} />
-    </div>
+    </>
   )
 
 }
@@ -57,7 +63,7 @@ const App = () => {
         <Button handle={() => handleNeutral(neutral, all)} text="neutral"/>
         <Button handle={() => handleBad(bad, all)} text="bad"/>
         <Header text="statistics" />
-        <Display value="" text="No feedback given"/>
+        <p>No feedback given</p>
       </div>
     )
   } else {  
@@ -68,11 +74,20 @@ const App = () => {
         <Button handle={() => handleNeutral(neutral, all)} text="neutral"/>
         <Button handle={() => handleBad(bad, all)} text="bad"/>
         <Header text="statistics" />
-        <Display value={good} text="good"/>
-        <Display value={neutral} text="neutral"/>
-        <Display value={bad} text="bad"/>
-        <Display value={all} text="all" />
-        <Statistics good={good} bad={bad} all={all} />
+        <table>
+          <tbody>
+            <Display value={good} text="good"/>   
+            <Display value={neutral} text="neutral"/>
+            <Display value={bad} text="bad"/>
+            <Display value={all} text="all" />
+            <Statistics good={good} bad={bad} all={all} />
+          </tbody>
+        </table>
+        
+        
+        
+        
+        
       </div>
     )
   }
