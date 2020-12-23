@@ -44,27 +44,46 @@ const App = () => {
     setAll(valueAll + 1)
     setBad(valueBad + 1)
   }
-  
-  return (
-    <div>
-      <Header text="give feedback" />
-      <Button 
-      handle={() => handleGood(good, all)}
-      text="good"/>
-      <Button 
-      handle={() => handleNeutral(neutral, all)}
-      text="neutral"/>
-      <Button 
-      handle={() => handleBad(bad, all)}
-      text="bad"/>
-      <Header text="statistics" />
-      <Display value={good} text="good"/>
-      <Display value={neutral} text="neutral"/>
-      <Display value={bad} text="bad"/>
-      <Display value={all} text="all" />
-      <Statistics good={good} bad={bad} all={all} avg="average" pos="positive" />
-    </div>
-  )
+
+  if(all === 0) {
+    return (
+      <div>
+        <Header text="give feedback" />
+        <Button 
+        handle={() => handleGood(good, all)}
+        text="good"/>
+        <Button 
+        handle={() => handleNeutral(neutral, all)}
+        text="neutral"/>
+        <Button 
+        handle={() => handleBad(bad, all)}
+        text="bad"/>
+        <Header text="statistics" />
+        <Display value="" text="No feedback given"/>
+      </div>
+    )
+  } else {  
+    return (
+      <div>
+        <Header text="give feedback" />
+        <Button 
+        handle={() => handleGood(good, all)}
+        text="good"/>
+        <Button 
+        handle={() => handleNeutral(neutral, all)}
+        text="neutral"/>
+        <Button 
+        handle={() => handleBad(bad, all)}
+        text="bad"/>
+        <Header text="statistics" />
+        <Display value={good} text="good"/>
+        <Display value={neutral} text="neutral"/>
+        <Display value={bad} text="bad"/>
+        <Display value={all} text="all" />
+        <Statistics good={good} bad={bad} all={all} avg="average" pos="positive" />
+      </div>
+    )
+  }
 }
 
 ReactDOM.render(
