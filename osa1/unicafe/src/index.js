@@ -14,14 +14,18 @@ const Display = ({ value, text }) => (
   <p>{text} {value}</p>
 )
 
-const Statistics = ({good, bad, all, avg, pos}) => {
+const StatisticLine = ({text, value}) => (
+  <p>{text} {value}</p>
+)
+
+const Statistics = ({good, bad, all }) => {
   let average = isNaN((good-bad)/all) ? 0 : (good-bad)/all
   let positive = isNaN(good/all) ? 0 : good/all*100 + " %"
   return (
-    <>
-      <p>{avg} {average}</p>
-      <p>{pos} {positive}</p>
-    </>
+    <div>
+      <StatisticLine text="average" value={average} />
+      <StatisticLine text="positive" value={positive} />
+    </div>
   )
 
 }
@@ -49,15 +53,9 @@ const App = () => {
     return (
       <div>
         <Header text="give feedback" />
-        <Button 
-        handle={() => handleGood(good, all)}
-        text="good"/>
-        <Button 
-        handle={() => handleNeutral(neutral, all)}
-        text="neutral"/>
-        <Button 
-        handle={() => handleBad(bad, all)}
-        text="bad"/>
+        <Button handle={() => handleGood(good, all)} text="good"/>
+        <Button handle={() => handleNeutral(neutral, all)} text="neutral"/>
+        <Button handle={() => handleBad(bad, all)} text="bad"/>
         <Header text="statistics" />
         <Display value="" text="No feedback given"/>
       </div>
@@ -66,21 +64,15 @@ const App = () => {
     return (
       <div>
         <Header text="give feedback" />
-        <Button 
-        handle={() => handleGood(good, all)}
-        text="good"/>
-        <Button 
-        handle={() => handleNeutral(neutral, all)}
-        text="neutral"/>
-        <Button 
-        handle={() => handleBad(bad, all)}
-        text="bad"/>
+        <Button handle={() => handleGood(good, all)} text="good"/>
+        <Button handle={() => handleNeutral(neutral, all)} text="neutral"/>
+        <Button handle={() => handleBad(bad, all)} text="bad"/>
         <Header text="statistics" />
         <Display value={good} text="good"/>
         <Display value={neutral} text="neutral"/>
         <Display value={bad} text="bad"/>
         <Display value={all} text="all" />
-        <Statistics good={good} bad={bad} all={all} avg="average" pos="positive" />
+        <Statistics good={good} bad={bad} all={all} />
       </div>
     )
   }
