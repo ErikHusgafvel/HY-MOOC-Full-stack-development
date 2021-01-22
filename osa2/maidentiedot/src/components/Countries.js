@@ -1,7 +1,7 @@
 import React from 'react'
 import Languages from './Languages.js'
 
-const Countries = ( {countries} ) => {
+const Countries = ( {countries, handleClick} ) => {
   if(countries.length > 10) {
     return <div>Too many matches, specify another filter</div>
   } else if(countries.length === 1) {
@@ -11,18 +11,19 @@ const Countries = ( {countries} ) => {
         <h1>{country.name}</h1>
         <div>capital {country.capital}</div>
         <div>population {country.population}</div>
-        <h2>languages</h2>
+        <h2>Spoken languages</h2>
         <ul>
           <Languages languages={country.languages} />
         </ul>
         <img src={country.flag} alt='Flag' width="200" height="200" />
+
 
       </div>
     )
   } else {
     return (
       countries.map( country => (
-        <div key={country.name}>{country.name}</div>
+        <div key={country.name}>{country.name} <button onClick={() => handleClick(country.name)}>show</button></div>
     )))
   }
 }

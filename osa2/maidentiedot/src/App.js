@@ -14,11 +14,15 @@ const App = () => {
     })
   }, [])
 
-  const handleChange = (event) => (
-    setShowCountries(
-      countries.filter(country => (country.name.toLowerCase().includes(event.target.value)))
-    )
-  )
+  const handleChange = (event) => {
+    console.log(event.target.value)
+    setShowCountries(countries.filter(country => (country.name.toLowerCase().includes(event.target.value.toLowerCase()))))
+    console.log(showCountries)
+  }
+
+  const handleClick = (countryName) => {
+    setShowCountries(countries.filter(countryF => countryF.name === countryName))
+  }
 
 
   return (
@@ -26,7 +30,7 @@ const App = () => {
       <div>find countries <input onChange={handleChange} />
       </div>
       <div>
-        <Countries countries={showCountries} />
+        <Countries countries={showCountries} handleClick={handleClick} />
       </div>
     </div>
   )
