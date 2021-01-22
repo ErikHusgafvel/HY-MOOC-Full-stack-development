@@ -40,7 +40,16 @@ const App = () => {
             showNewPersons(showPersons.concat(returnedPerson))     
           })
       } else {
-      alert(`${newName} is already added to phonebook`)
+        if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          const person = persons.find(person => person.name === newName)
+          personService
+            .update(person.id, personObject)
+              .then(returnedPerson => {
+                setPersons(persons.map(personM => personM.id === person.id ? returnedPerson : personM))
+                showNewPersons(showPersons.map(personM => personM.id === person.id ? returnedPerson : personM))
+              })
+        }
+          
     }
   }
 

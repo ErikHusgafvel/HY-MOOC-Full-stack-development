@@ -1,19 +1,14 @@
 {
   "persons": [
     {
-      "name": "Ella 3456",
-      "number": "",
-      "id": 7
+      "name": "Erik Husgafvel",
+      "number": "040-5969362",
+      "id": 1
     },
     {
-      "name": "Erik",
-      "number": "1234",
-      "id": 9
-    },
-    {
-      "name": "Mikkeli",
-      "number": "2345",
-      "id": 10
+      "name": "Jarno Kottelin",
+      "number": "050-4523523",
+      "id": 2
     }
   ]
 }
