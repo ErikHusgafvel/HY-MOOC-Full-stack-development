@@ -2,7 +2,7 @@ import React from 'react'
 
 const Languages = ( {languages} ) => (
   languages.map( language => (
-    <li key={language.name}>{language.name}</li>
+    <li className='lang' key={language.name}>{language.name}</li>
   ))
 )
 

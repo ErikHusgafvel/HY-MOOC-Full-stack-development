@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Erik Husgafvel",
-      "number": "040-5969362",
-      "id": 1
-    },
-    {
       "name": "Jarno Kottelin",
       "number": "050-4523523",
       "id": 2
