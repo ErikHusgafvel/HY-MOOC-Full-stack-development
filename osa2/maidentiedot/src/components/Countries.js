@@ -1,5 +1,6 @@
 import React from 'react'
 import Languages from './Languages.js'
+import Weather from './Weather.js'
 
 const Countries = ( {countries, handleClick} ) => {
   if(countries.length > 10) {
@@ -16,6 +17,8 @@ const Countries = ( {countries, handleClick} ) => {
           <Languages languages={country.languages} />
         </ul>
         <img src={country.flag} alt='Flag' width="200" height="200" />
+        <h2>Weather in {country.capital}</h2>
+        <Weather capital={country.capital} />
 
 
       </div>
