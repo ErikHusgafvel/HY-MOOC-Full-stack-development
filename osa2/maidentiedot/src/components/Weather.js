@@ -9,15 +9,15 @@ const Weather = ( {capital} ) => {
     axios
     .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${capital}`)
     .then(response => {
-      console.log(response)
+      //console.log(response)
       setPending(
         <div>
           <div><strong>temperature: </strong>{response.data.current.temperature} Celsius</div>
           {response.data.current.weather_icons.map( (source, index) => {
-            console.log({source})
+            //console.log({source})
             return (
-              <div>
-                <img key={source}
+              <div key={index}>
+                <img
                 src={source} 
                 alt={response.data.current.weather_descriptions[{index}]} width="100" height="100" />
               </div>
@@ -30,7 +30,6 @@ const Weather = ( {capital} ) => {
       )
     })
   }, [])
-  console.log({pending})
   return ( <div>{pending}</div> )
 }
 

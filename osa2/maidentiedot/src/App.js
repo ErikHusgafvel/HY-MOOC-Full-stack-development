@@ -15,9 +15,9 @@ const App = () => {
   }, [])
 
   const handleChange = (event) => {
-    console.log(event.target.value)
+    //console.log(event.target.value)
     setShowCountries(countries.filter(country => (country.name.toLowerCase().includes(event.target.value.toLowerCase()))))
-    console.log(showCountries)
+    //console.log(showCountries)
   }
 
   const handleClick = (countryName) => {
