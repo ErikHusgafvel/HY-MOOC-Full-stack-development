@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons.js'
 import Filter from './components/Filter.js'
@@ -59,6 +58,20 @@ const App = () => {
     showNewPersons(persons.filter(person => person.name.toLowerCase().includes(event.target.value)))
   }
 
+  const handleDelete = (person) => {
+    //console.log(id)
+    if(window.confirm(`Delete ${person.name} ?`)) {
+      personService
+      .del(person.id)
+        .then(request => {
+          setPersons(persons.filter(personF => personF.id !== person.id))
+          showNewPersons(showPersons.filter(personF => personF.id !== person.id))
+          //console.log("Request", request)
+        });
+    }
+    
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -72,7 +85,7 @@ const App = () => {
         newNumber={newNumber}
         />
       <h2>Numbers</h2>
-      <Persons persons={showPersons} />
+      <Persons persons={showPersons} handleDelete={handleDelete}/>
     </div>
   )
 
