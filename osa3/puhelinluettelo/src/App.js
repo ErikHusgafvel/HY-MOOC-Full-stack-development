@@ -48,6 +48,15 @@ const App = () => {
               setSuccessMessage(null)
             }, 2000)  
           })
+          .catch(error => {
+            console.log(error.response.data)
+            setErrorMessage(error.response.data.error)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+          })
       } else {
         if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
           const person = persons.find(person => person.name === newName)
@@ -63,6 +72,12 @@ const App = () => {
                   setSuccessMessage(null)
                 }, 2000)
               })
+              /** BUG HERE !!! When updating e.g. phone number and the updation runs into validation error (e.g.
+               * doesn't include phone number at all), front-end wipes out the earlier person from the screen, saying
+               * that the information has already been removed from the server. After, reloading the page shows the
+               * earlier person again (since nothing is done for it because of the validation error). This problem is
+               * partly due setting "runValidators: true" in mongoose.findIdAndUpdate.
+               * */
               .catch(error => {
                 setErrorMessage(
                   `Information of '${newName}' has already been removed from server`
