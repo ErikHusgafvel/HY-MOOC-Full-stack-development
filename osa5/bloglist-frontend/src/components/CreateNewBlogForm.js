@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CreateNewForm = ({ handleNewBlog, handleTitleChange, handleAuthorChange, handleUrlChange, title, author, url }) => {
+const CreateNewBlogForm = ({ handleNewBlog, handleTitleChange, handleAuthorChange, handleUrlChange, title, author, url }) => {
   return (
     <div>
       <h2>Create new</h2>
@@ -38,4 +38,4 @@ const CreateNewForm = ({ handleNewBlog, handleTitleChange, handleAuthorChange, h
   )
 }
 
-export default CreateNewForm
+export default CreateNewBlogForm

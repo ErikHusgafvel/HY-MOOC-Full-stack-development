@@ -2,7 +2,6 @@ import React from 'react'
 
 const LoginForm = ({ handleLogin, handleUsernameChange, handlePasswordChange, username, password }) => (
   <div>
-    <h2>Log in to application</h2>
     <form onSubmit={handleLogin}>
       <div>
         username
@@ -24,7 +23,7 @@ const LoginForm = ({ handleLogin, handleUsernameChange, handlePasswordChange, us
       </div>
       <button type='submit'>login</button>
     </form>
-    </div>
+  </div>
 )
 
 export default LoginForm
