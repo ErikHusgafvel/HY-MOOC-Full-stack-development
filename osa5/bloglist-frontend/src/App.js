@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
+import CreateNewForm from './components/CreateNewForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -9,6 +10,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -21,6 +25,7 @@ const App = () => {
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -40,9 +45,12 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
+
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -57,6 +65,34 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
 
     setUser(null)
+  }
+
+  const handleNewBlog =  async(event) => {
+    event.preventDefault()
+    const likes = 0
+    try {
+        await blogService.create({
+        title, author, url, likes
+      })
+    } catch(exception) {
+      console.log(exception)
+    }
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
   }
 
 
@@ -76,6 +112,15 @@ const App = () => {
           <div>{user.name} logged in
           <button onClick={() => handleLogout()}>logout</button>
           </div>
+          <CreateNewForm
+          handleNewBlog={handleNewBlog}
+          handleTitleChange={handleTitleChange}
+          handleAuthorChange={handleAuthorChange}
+          handleUrlChange={handleUrlChange}
+          title={title}
+          author={author}
+          url={url}
+          />
           <br/>
           <div>
           {blogs.map(blog =>
