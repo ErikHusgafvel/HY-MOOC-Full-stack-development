@@ -15,6 +15,14 @@ const Blog = ({ blog, incrementBlogLikes, removeBlog, user }) => {
   }
 
   const showRemove = () => {
+    /**
+     * Here lies an error: when creating a new blog, blog.user doesn't get populated in the
+     * new blog before refreshing the page. Thus, blog.user is only userID and doesn't
+     * include username. Therefore, blog.user.username === user.username defaults to error
+     * and the remove button doesn't show up before refreshing the page.
+     * ----
+     * Same seems to happen when pushing the like-button.
+     */
     if( blog.user && user && blog.user.username === user.username ){
       return (
         <button onClick={() => removeBlog(blog)}>remove</button>
