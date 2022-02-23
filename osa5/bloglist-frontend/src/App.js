@@ -115,6 +115,11 @@ const App = () => {
     setBlogs(blogs.map(blog => blog.id === blogObject.id ? returnedBlog : blog))
   }
 
+  const removeBlog = async (blogObject) => {
+    await blogService.del(blogObject.id)
+    setBlogs(blogs.filter(blog => blog.id !== blogObject.id))
+  }
+
   return (
     <div>
       {user === null ?
@@ -144,7 +149,11 @@ const App = () => {
           <br/>
           <div>
             {blogs.sort((blog1, blog2) => (blog2.likes - blog1.likes)).map(blog =>
-              <Blog key={blog.id} blog={blog} incrementBlogLikes={incrementBlogLikes}/>
+              <Blog key={blog.id}
+                blog={blog}
+                incrementBlogLikes={incrementBlogLikes}
+                removeBlog={removeBlog}
+                user={user}/>
             )}
           </div>
         </div>
