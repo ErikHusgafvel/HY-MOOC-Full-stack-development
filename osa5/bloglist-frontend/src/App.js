@@ -59,7 +59,7 @@ const App = () => {
 
       console.log(exception)
       setErrorMessage(
-        `Wrong username or password`
+        'Wrong username or password'
       )
       setTimeout(() => {
         setErrorMessage(null)
@@ -74,7 +74,7 @@ const App = () => {
 
     setUser(null)
     setSuccessMessage(
-      `Logged out successfully`
+      'Logged out successfully'
     )
     setTimeout(() => {
       setSuccessMessage(null)
@@ -104,9 +104,9 @@ const App = () => {
   }
 
   const blogForm = () => (
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-        <CreateNewBlogForm createBlog={addBlog}/>
-      </Togglable>
+    <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <CreateNewBlogForm createBlog={addBlog}/>
+    </Togglable>
   )
 
   const incrementBlogLikes = async (increment, blogObject) => {
@@ -125,41 +125,41 @@ const App = () => {
   return (
     <div>
       {user === null ?
-      <div>
-        <h2>Log in to application</h2>
-        <Notification.SuccessNotification message={successMessage} />
-        <Notification.ErrorNotification message={errorMessage} />
-        <LoginForm
-          handleLogin={handleLogin}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          username={username}
-          password={password}
-        />
-      </div> :
-      <div>
-        <h2>blogs</h2>
         <div>
+          <h2>Log in to application</h2>
           <Notification.SuccessNotification message={successMessage} />
           <Notification.ErrorNotification message={errorMessage} />
-          <div>{user.name} logged in
-            <button onClick={() => handleLogout()}>logout</button>
-          </div>
+          <LoginForm
+            handleLogin={handleLogin}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            username={username}
+            password={password}
+          />
+        </div> :
+        <div>
+          <h2>blogs</h2>
           <div>
-            {blogForm()}
-          </div>
-          <br/>
-          <div>
-            {blogs.sort((blog1, blog2) => (blog2.likes - blog1.likes)).map(blog =>
-              <Blog key={blog.id}
-                blog={blog}
-                incrementBlogLikes={incrementBlogLikes}
-                removeBlog={removeBlog}
-                user={user}/>
-            )}
+            <Notification.SuccessNotification message={successMessage} />
+            <Notification.ErrorNotification message={errorMessage} />
+            <div>{user.name} logged in
+              <button onClick={() => handleLogout()}>logout</button>
+            </div>
+            <div>
+              {blogForm()}
+            </div>
+            <br/>
+            <div>
+              {blogs.sort((blog1, blog2) => (blog2.likes - blog1.likes)).map(blog =>
+                <Blog key={blog.id}
+                  blog={blog}
+                  incrementBlogLikes={incrementBlogLikes}
+                  removeBlog={removeBlog}
+                  user={user}/>
+              )}
+            </div>
           </div>
         </div>
-      </div>
       }
     </div>
   )

@@ -27,7 +27,7 @@ const update = async (id, newObject) => {
 
 const del = async id => {
   const config = {
-    headers: { Authorization: token}
+    headers: { Authorization: token }
   }
   const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response
@@ -39,4 +39,4 @@ export default {
   update,
   del,
   setToken
- }
+}
