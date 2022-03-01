@@ -33,4 +33,11 @@ describe('renders correct content', () => {
     const div2 = container.querySelector('.togglableContent')
     expect(div2).toHaveStyle('display: none')
   })
+
+  test('after clicking the button, more information is displayed', () => {
+    const button = screen.getByText('view')
+    userEvent.click(button)
+    const div = container.querySelector('.togglableContent')
+    expect(div).not.toHaveStyle('display: none')
+  })
 })
