@@ -6,6 +6,7 @@ import Blog from './Blog'
 
 describe('renders correct content', () => {
   let container
+  const incrementBlogLikesMock = jest.fn()
 
   beforeEach(() => {
     const blog = {
@@ -15,7 +16,6 @@ describe('renders correct content', () => {
       likes: 0
     }
 
-    const incrementBlogLikesMock = jest.fn()
     const removeBlogMock = jest.fn()
 
     const user = {
@@ -39,5 +39,12 @@ describe('renders correct content', () => {
     userEvent.click(button)
     const div = container.querySelector('.togglableContent')
     expect(div).not.toHaveStyle('display: none')
+  })
+
+  test('clicking like button twice increments calls to mock function with two', () => {
+    const likeButton = screen.getByText('like')
+    userEvent.click(likeButton)
+    userEvent.click(likeButton)
+    expect(incrementBlogLikesMock.mock.calls).toHaveLength(2)
   })
 })
