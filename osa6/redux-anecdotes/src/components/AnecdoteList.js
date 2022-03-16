@@ -4,6 +4,7 @@ import { invokeNotification, deprecateNotification } from '../reducers/notificat
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(state => state.anecdotes)
+  const filter = useSelector(state => state.filter)
   const dispatch = useDispatch()
 
 
@@ -20,16 +21,18 @@ const AnecdoteList = () => {
 
   return (
     <div>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
+      {anecdotes
+        .filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
+        .map(anecdote =>
+          <div key={anecdote.id}>
+            <div>
+              {anecdote.content}
+            </div>
+            <div>
+              has {anecdote.votes}
+              <button onClick={() => voteAction(anecdote.id)}>vote</button>
+            </div>
           </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => voteAction(anecdote.id)}>vote</button>
-          </div>
-        </div>
         )
       }
     </div>
