@@ -5,7 +5,7 @@ import Countries from './components/Countries.js'
 const App = () => {
   const [ countries, setNewCountries ] = useState([])
   const [ showCountries, setShowCountries ] = useState([])
-  
+
   useEffect(() => {
     axios
     .get('https://restcountries.eu/rest/v2/all')
