@@ -17,4 +17,14 @@ const notificationSlice = createSlice({
 })
 
 export const { invokeNotification, deprecateNotification } = notificationSlice.actions
+
+export const setNotification = (message, seconds) => {
+  return dispatch => {
+    dispatch(invokeNotification(message))
+    setTimeout(() => {
+      dispatch(deprecateNotification())
+    }, seconds * 1000)
+  }
+}
+
 export default notificationSlice.reducer
