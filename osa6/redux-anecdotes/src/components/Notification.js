@@ -1,3 +1,8 @@
+/*
+ * Modern way of using Redux with useSelector.
+ * Active solution below uses older way of using connect-function and
+ * Higher-Order Component (HOC) "ConnectedNotifications"
+
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
@@ -15,5 +20,29 @@ const Notification = () => {
     )
   } else return ( <div /> )
 }
+*/
 
-export default Notification
+import { connect } from 'react-redux'
+
+const Notification = (props) => {
+  const notification = props.notification
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
+  if (notification) {
+    return (
+      <div style={style}>
+        {notification}
+      </div>
+    )
+  } else return ( <div /> )
+}
+
+const mapStateToProps = (state) => {
+  return { notification: state.notification }
+}
+
+const ConnectedNotifications = connect(mapStateToProps)(Notification)
+export default ConnectedNotifications
