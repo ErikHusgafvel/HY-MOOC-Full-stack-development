@@ -20,6 +20,10 @@ export const { invokeNotification, deprecateNotification } = notificationSlice.a
 
 export const setNotification = (message, seconds) => {
   return dispatch => {
+    /**
+     * setTimeout is asynchronous function -> set timer first on to get the timeoutID,
+     * then enter to the invokeNotification-function
+     */
     const timeoutID = setTimeout(() => {
       dispatch(deprecateNotification())
     }, seconds * 1000)
