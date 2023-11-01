@@ -9,10 +9,14 @@ import NewBlog from "./components/NewBlog"
 import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
 
+import { invokeNotification, deprecateNotification } from "./reducers/notificationReducer"
+
+import { useDispatch } from "react-redux"
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState("")
-  const [info, setInfo] = useState({ message: null })
+  //const [info, setInfo] = useState({ message: null })
 
   const blogFormRef = useRef()
 
@@ -26,14 +30,10 @@ const App = () => {
   }, [])
 
   const notifyWith = (message, type = "info") => {
-    setInfo({
-      message,
-      type,
-    })
-
+    invokeNotification(message, type)
     setTimeout(() => {
-      setInfo({ message: null })
-    }, 3000)
+      deprecateNotification()
+    }, 5000)
   }
 
   const login = async (username, password) => {
@@ -82,7 +82,8 @@ const App = () => {
     return (
       <div>
         <h2>log in to application</h2>
-        <Notification info={info} />
+
+        <Notification /** info={info} */ />
         <LoginForm login={login} />
       </div>
     )
@@ -93,7 +94,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification info={info} />
+      <Notification /**info={info} *//>
       <div>
         {user.name} logged in
         <button onClick={logout}>logout</button>
