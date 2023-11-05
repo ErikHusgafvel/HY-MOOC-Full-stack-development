@@ -9,7 +9,7 @@ import NewBlog from "./components/NewBlog"
 import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
 
-import { invokeNotification, deprecateNotification } from "./reducers/notificationReducer"
+import { setNotification } from "./reducers/notificationReducer"
 
 import { useDispatch } from "react-redux"
 
@@ -19,6 +19,7 @@ const App = () => {
   //const [info, setInfo] = useState({ message: null })
 
   const blogFormRef = useRef()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const user = storageService.loadUser()
@@ -29,33 +30,35 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
+  /**
   const notifyWith = (message, type = "info") => {
     invokeNotification(message, type)
     setTimeout(() => {
       deprecateNotification()
     }, 5000)
   }
+   */
 
   const login = async (username, password) => {
     try {
       const user = await loginService.login({ username, password })
       setUser(user)
       storageService.saveUser(user)
-      notifyWith("welcome!")
+      dispatch(setNotification("welcome!", "info", 5)) // notifyWith("welcome!")
     } catch (e) {
-      notifyWith("wrong username or password", "error")
+      dispatch(setNotification("wrong username or password!", "error", 5)) // notifyWith("wrong username or password", "error")
     }
   }
 
   const logout = async () => {
     setUser(null)
     storageService.removeUser()
-    notifyWith("logged out")
+    setNotification("logged out", "info", 5) // notifyWith("logged out")
   }
 
   const createBlog = async (newBlog) => {
     const createdBlog = await blogService.create(newBlog)
-    notifyWith(`A new blog '${newBlog.title}' by '${newBlog.author}' added`)
+    dispatch(setNotification(`A new blog '${newBlog.title}' by '${newBlog.author}' added`, "info", 5)) // notifyWith(`A new blog '${newBlog.title}' by '${newBlog.author}' added`)
     setBlogs(blogs.concat(createdBlog))
     blogFormRef.current.toggleVisibility()
   }
@@ -63,7 +66,7 @@ const App = () => {
   const like = async (blog) => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id }
     const updatedBlog = await blogService.update(blogToUpdate)
-    notifyWith(`A like for the blog '${blog.title}' by '${blog.author}'`)
+    dispatch(setNotification(`A like for the blog '${blog.title}' by '${blog.author}'`, "info", 5)) // notifyWith(`A like for the blog '${blog.title}' by '${blog.author}'`)
     setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)))
   }
 
@@ -73,7 +76,7 @@ const App = () => {
     )
     if (ok) {
       await blogService.remove(blog.id)
-      notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`)
+      dispatch(setNotification(`The blog' ${blog.title}' by '${blog.author}' removed`, "info", 5)) // notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`)
       setBlogs(blogs.filter((b) => b.id !== blog.id))
     }
   }

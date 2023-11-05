@@ -1,8 +1,15 @@
-import { createStore } from 'redux'
+//npm install @reduxjs/toolkit
+
+// import { createStore } from 'redux'
+import { configureStore } from "@reduxjs/toolkit"
 
 import notificationReducer from './notificationReducer'
 
-const store = createStore(notificationReducer)
+const store = configureStore({
+  reducer: {
+    notification: notificationReducer
+  }
+})
 
 store.subscribe(() => {
   const storeNow = store.getState()

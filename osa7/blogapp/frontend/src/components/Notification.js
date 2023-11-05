@@ -1,9 +1,12 @@
 import { useSelector } from "react-redux"
+import React from "react"
 
 const Notification = () => {
-  const notification = useSelector(state => state) //[content, type]
+  const notification = useSelector(state => state.notification) //[message, type, timeoutID]
+  console.log("notification is true: ", notification)
+  console.log("notification[1] evaluates to: ", notification[1])
   const style = {
-    color: state[1] === "error" ? "red" : "green",
+    color: notification[1] === "error" ? "red" : "green",
     background: "lightgrey",
     fontSize: 20,
     borderStyle: "solid",
@@ -14,7 +17,7 @@ const Notification = () => {
   if (notification) {
     return (
     <div style={style}>
-      {state[0]}
+      {notification[0]}
     </div>
     )
   } else return ( <div /> )

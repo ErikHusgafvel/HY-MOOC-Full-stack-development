@@ -1,52 +1,30 @@
-const notificationReducer = (state = [null, null], action) => {
-  console.log('here')
-  switch (action.type) {
-    case 'INVOKE_NOTIFICATION':
-      const content = action.payload.message
-      const type = action.payload.type
-      //const timeoutID = action.payload.timeoutID
-      //clearTimeout(state[2])
-      return [content, type] //, timeoutID]
-    case 'DEPRECATE_NOTIFICATION':
-      return [null, null] //, state[2]]
-    default: return state
-  }
-}
+import { createSlice } from "@reduxjs/toolkit"
 
-const generateTimeoutID = () =>
-  Number((Math.random() * 100000).toFixed(0))
-
-export const invokeNotification = (message, type) => {
-  return {
-    type: 'INVOKE_NOTIFICATION',
-    payload: {
-      message: message,
-      type: type
-      //timeoutID: generateTimeoutID()
+const notificationSlice = createSlice({
+  name: 'notifications',
+  initialState: [null, null, null],
+  reducers: {
+    invokeNotification(state, action) {
+      console.log('invokeNotification', JSON.parse(JSON.stringify(state)))
+      const { message, type, timeoutID } = action.payload
+      clearTimeout(state[2])
+      return [message, type, timeoutID]
+    },
+    deprecateNotification(state, action) { // eslint-disable-line no-unused-vars
+      return [null, null, state[2]]
     }
   }
-}
+})
 
-export const deprecateNotification = () => {
-  return {
-    type: 'DEPRECATE_NOTIFICATION'
+export const { invokeNotification, deprecateNotification } = notificationSlice.actions
+
+export const setNotification = (message, type='info', seconds) => {
+  return dispatch => {
+    const timeoutID = setTimeout(() => {
+      dispatch(deprecateNotification())
+    }, seconds * 1000)
+    dispatch(invokeNotification({ message, type, timeoutID }))
   }
 }
 
-/** This still waiting for next gen solution
-export const setNotification = (message, seconds) =>
-dispatch => {
-  const timeoutID = setTimeout(() => {
-    dispatch({
-      type: 'DEPRECATE_NOTIFICATION'
-    })
-  }, seconds * 1000)
-  dispatch({
-    type: 'INVOKE_NOTIFICATION',
-    payload: {
-      message: message,
-      timeoutID: timeoutID
-    }})
-}
- */
-export default notificationReducer
+export default notificationSlice.reducer
