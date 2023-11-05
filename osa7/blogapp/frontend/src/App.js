@@ -10,7 +10,7 @@ import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
 
 import { setNotification } from "./reducers/notificationReducer"
-import { initializeBlogs } from "./reducers/blogReducer"
+import { initializeBlogs, createNewBlog, likeBlog, removeBlog } from "./reducers/blogReducer"
 
 import { useDispatch, useSelector } from "react-redux"
 
@@ -59,7 +59,7 @@ const App = () => {
   }
 
   const createBlog = async (blog) => {
-    dispatch(createBlog(blog)) // # final version
+    dispatch(createNewBlog(blog)) // # final version
     //const newBlog = await blogService.create(blog) # version 2.0
     //dispatch(appendBlogs(newBlog)) # version 2.0
     //setBlogs(blogs.concat(newBlog)) #version 1.0
@@ -67,26 +67,25 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const like = async (/**blog*/) => {
-    /**
-    const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id }
-    const updatedBlog = await blogService.update(blogToUpdate)
+  const like = async (blog) => {
+    dispatch(likeBlog(blog))
+    //const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id } # version 1.0
+    //const updatedBlog = await blogService.update(blogToUpdate) # version 1.0
+    //setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b))) # version 1.0
     dispatch(setNotification(`A like for the blog '${blog.title}' by '${blog.author}'`, "info", 5)) // notifyWith(`A like for the blog '${blog.title}' by '${blog.author}'`)
-    setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)))
-    */
+
   }
 
-  const remove = async (/**blog*/) => {
-    /**
+  const remove = async (blog) => {
     const ok = window.confirm(
       `Sure you want to remove '${blog.title}' by ${blog.author}`
     )
     if (ok) {
-      await blogService.remove(blog.id)
+      dispatch(removeBlog(blog)) // # version 1.0
+      //await blogService.remove(blog.id) # version 1.0
       dispatch(setNotification(`The blog' ${blog.title}' by '${blog.author}' removed`, "info", 5)) // notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`)
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
+      //setBlogs(blogs.filter((b) => b.id !== blog.id)) # version 1.0
     }
-    */
   }
 
   if (!user) {
