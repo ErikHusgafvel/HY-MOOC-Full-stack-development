@@ -1,13 +1,12 @@
-//npm install @reduxjs/toolkit
-
-// import { createStore } from 'redux'
 import { configureStore } from "@reduxjs/toolkit"
 
 import notificationReducer from './notificationReducer'
+import blogReducer from "./blogReducer"
 
 const store = configureStore({
   reducer: {
-    notification: notificationReducer
+    notifications: notificationReducer,
+    blogs:  blogReducer
   }
 })
 

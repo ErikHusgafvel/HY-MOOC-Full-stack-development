@@ -9,20 +9,20 @@ const headers = {
 }
 
 const getAll = async () => {
-  const request = await axios.get(baseUrl)
-  return request.data
+  const response = await axios.get(baseUrl)
+  return response.data
 }
 
 const create = async (object) => {
-  const request = await axios.post(baseUrl, object, { headers })
-  return request.data
+  const response = await axios.post(baseUrl, object, { headers })
+  return response.data
 }
 
 const update = async (object) => {
-  const request = await axios.put(`${baseUrl}/${object.id}`, object, {
+  const response = await axios.put(`${baseUrl}/${object.id}`, object, {
     headers,
   })
-  return request.data
+  return response.data
 }
 
 const remove = async (id) => {

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import React from "react"
 
 const Notification = () => {
-  const notification = useSelector(state => state.notification) //[message, type, timeoutID]
+  const notification = useSelector(state => state.notifications) //[message, type, timeoutID]
   console.log("notification is true: ", notification)
   console.log("notification[1] evaluates to: ", notification[1])
   const style = {
