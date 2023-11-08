@@ -59,16 +59,16 @@ const App = () => {
   }
 
   const createBlog = async (blog) => {
-    dispatch(createNewBlog(blog)) // # final version
-    //const newBlog = await blogService.create(blog) # version 2.0
-    //dispatch(appendBlogs(newBlog)) # version 2.0
-    //setBlogs(blogs.concat(newBlog)) #version 1.0
+    await dispatch(createNewBlog(blog)) // # final version
+    //const newBlog = await blogService.create(blog) // # version 2.0
+    //dispatch(appendBlogs(newBlog)) // # version 2.0
+    //setBlogs(blogs.concat(blog)) // #version 1.0
     dispatch(setNotification(`A new blog '${blog.title}' by '${blog.author}' added`, "info", 5)) // notifyWith(`A new blog '${blog.title}' by '${blog.author}' added`)
     blogFormRef.current.toggleVisibility()
   }
 
   const like = async (blog) => {
-    dispatch(likeBlog(blog))
+    await dispatch(likeBlog(blog))
     //const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id } # version 1.0
     //const updatedBlog = await blogService.update(blogToUpdate) # version 1.0
     //setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b))) # version 1.0
@@ -81,7 +81,7 @@ const App = () => {
       `Sure you want to remove '${blog.title}' by ${blog.author}`
     )
     if (ok) {
-      dispatch(removeBlog(blog)) // # version 1.0
+      await dispatch(removeBlog(blog)) // # version 1.0
       //await blogService.remove(blog.id) # version 1.0
       dispatch(setNotification(`The blog' ${blog.title}' by '${blog.author}' removed`, "info", 5)) // notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`)
       //setBlogs(blogs.filter((b) => b.id !== blog.id)) # version 1.0
@@ -113,7 +113,7 @@ const App = () => {
         <NewBlog createBlog={createBlog} />
       </Togglable>
       <div>
-        {blogs.sort(byLikes).map((blog) => (
+        {[...blogs].sort(byLikes).map((blog) => (
           <Blog
             key={blog.id}
             blog={blog}

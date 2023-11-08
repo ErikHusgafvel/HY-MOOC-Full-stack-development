@@ -12,10 +12,11 @@ const blogSlice = createSlice({
       state.push(action.payload) // createSlice uses Immer-library under the hood, which enables the usage of .push() instead of .concat()
     },
     likeIncrement(state, action) {
-      state.map((blog) => (blog.id === action.payload.id ? action.payload : blog))
+      console.log("here", action.payload)
+      return state.map((blog) => (blog.id === action.payload.id ? action.payload : blog))
     },
     remove(state, action) {
-      state.filter((blog) => blog.id !== action.payload.id)
+      return state.filter((blog) => blog.id !== action.payload.id)
     }
   }
 })
