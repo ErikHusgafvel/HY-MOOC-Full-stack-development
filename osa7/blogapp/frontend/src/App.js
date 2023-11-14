@@ -1,5 +1,7 @@
 import { useEffect, useRef, React } from "react"
 import Blog from "./components/Blog"
+import Users from "./components/Users"
+import User from "./components/User"
 import loginService from "./services/login"
 
 import LoginForm from "./components/Login"
@@ -12,6 +14,10 @@ import { initializeBlogs, createNewBlog, likeBlog, removeBlog } from "./reducers
 import { initializeUser, removeUser, saveUser } from "./reducers/userReducer"
 
 import { useDispatch, useSelector } from "react-redux"
+import { Routes, Route, useMatch } from "react-router-dom"
+
+
+const helper = require("./utils/helper")
 
 
 const App = () => {
@@ -65,6 +71,28 @@ const App = () => {
     }
   }
 
+  const Home = () => (
+    <div>
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <NewBlog createBlog={createBlog} />
+      </Togglable>
+      <div>
+        {[...blogs].sort(byLikes).map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            like={() => like(blog)}
+            canRemove={user && blog.user.username === user.username}
+            remove={() => remove(blog)}
+          />
+        ))}
+      </div>
+    </div>
+  )
+
+  const match = useMatch("/users/:id")
+  const userWithBlogs = match ? helper.userWithBlogs(blogs, match.params.id) : null
+
   if (!user) {
     return (
       <div>
@@ -83,22 +111,15 @@ const App = () => {
       <Notification />
       <div>
         {user.name} logged in
-        <button onClick={logout}>logout</button>
+        <div>
+          <button onClick={logout}>logout</button>
+        </div>
       </div>
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <NewBlog createBlog={createBlog} />
-      </Togglable>
-      <div>
-        {[...blogs].sort(byLikes).map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            like={() => like(blog)}
-            canRemove={user && blog.user.username === user.username}
-            remove={() => remove(blog)}
-          />
-        ))}
-      </div>
+      <Routes>
+        <Route path='/users/:id' element={<User userWithBlogs={userWithBlogs} />} />
+        <Route path='/users' element={<Users blogs={[...blogs]} />} />
+        <Route path='/' element={<Home />} />
+      </Routes>
     </div>
   )
 }

@@ -1,0 +1,17 @@
+.blog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.users-header-row {
+  font-weight: bold;
+  display: flex;
+}
+
+.users {
+  display: flex;
+}
