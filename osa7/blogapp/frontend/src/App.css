@@ -23,6 +23,14 @@
   display: flex;
 }
 
-.user-logged-in {
-  padding: 16px 0px 16px 0px;
+.navigation-bar {
+  padding: 5px 0px;
+  background-color: lightgrey;
+}
+
+.navigation-bar > a {
+  padding: 0px 5px;
+}
+.navigation-bar > button {
+  margin: 0px 5px;
 }

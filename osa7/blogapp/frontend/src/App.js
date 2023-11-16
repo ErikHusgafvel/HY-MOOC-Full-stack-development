@@ -1,21 +1,19 @@
 import { useEffect, useRef, React } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Routes, Route, Link, useMatch } from "react-router-dom"
+
+import Home from "./components/Home"
 import Blog from "./components/Blog"
 import Users from "./components/Users"
 import User from "./components/User"
-import loginService from "./services/login"
-
 import LoginForm from "./components/Login"
-import NewBlog from "./components/NewBlog"
 import Notification from "./components/Notification"
-import Togglable from "./components/Togglable"
+
+import loginService from "./services/login"
 
 import { setNotification } from "./reducers/notificationReducer"
 import { initializeBlogs, createNewBlog, likeBlog, removeBlog } from "./reducers/blogReducer"
 import { initializeUser, removeUser, saveUser } from "./reducers/userReducer"
-
-import { useDispatch, useSelector } from "react-redux"
-import { Routes, Route, Link, useMatch } from "react-router-dom"
-
 
 const helper = require("./utils/helper")
 
@@ -71,28 +69,6 @@ const App = () => {
     }
   }
 
-  const Home = () => (
-    <div>
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <NewBlog createBlog={createBlog} />
-      </Togglable>
-      <div>
-        {[...blogs].sort(byLikes).map(blog =>
-        <li key={blog.id} className="home-blog-list">
-          <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
-        </li>/* (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            like={() => like(blog)}
-            canRemove={user && blog.user.username === user.username}
-            remove={() => remove(blog)}
-          />
-        ) */)}
-      </div>
-    </div>
-  )
-
   const userMatch = useMatch("/users/:id")
   const userWithBlogs = userMatch ? helper.userWithBlogs(blogs, userMatch.params.id) : null
 
@@ -109,24 +85,26 @@ const App = () => {
     )
   }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
-
   return (
     <div>
-      <h2>blogs</h2>
-      <Notification />
-      <div className="user-logged-in">
+      <div className="navigation-bar">
+        <Link to="/">blogs</Link>
+        <Link to="/users">users</Link>
+
         {user.name} logged in
-      </div>
-      <div>
         <button onClick={logout}>logout</button>
       </div>
+      <div >
+      </div>
+
+      <h2>blog app</h2>
+      <Notification />
 
       <Routes>
         <Route path='/users/:id' element={<User userWithBlogs={userWithBlogs} />} />
         <Route path='/users' element={<Users blogs={[...blogs]} />} />
         <Route path='/blogs/:id' element={<Blog blog={blog} like={() => like(blog)} canRemove={blog && user && blog.user.username === user.username} remove={() => remove(blog)}/> } />
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home blogs={blogs} blogFormRef={blogFormRef} createBlog={createBlog}/>} />
       </Routes>
     </div>
   )
