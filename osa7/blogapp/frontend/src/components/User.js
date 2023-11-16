@@ -8,7 +8,7 @@ const User = ({ userWithBlogs }) => {
   return (
     <div>
       <h2>{userWithBlogs.username}</h2>
-      <div>added blogs</div>
+      <div style={{fontWeight:"bold"}}>added blogs</div>
       <ul>
         {userWithBlogs.blogs.map(blog =>
           <li key={blog.id}>

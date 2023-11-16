@@ -1,34 +1,21 @@
-import { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 
 const Blog = ({ blog, like, canRemove, remove }) => {
-  const [visible, setVisible] = useState(false)
-
-  const style = {
-    marginBottom: 2,
-    padding: 5,
-    borderStyle: "solid",
-  }
+  if (!blog) return null
 
   return (
-    <div style={style} className="blog">
-      {blog.title} {blog.author}
-      <button onClick={() => setVisible(!visible)}>
-        {visible ? "hide" : "show"}
-      </button>
-      {visible && (
+    <div className="blog">
+      <h2>{blog.title} {blog.author}</h2>
         <div>
           <div>
-            {" "}
-            <a href={blog.url}> {blog.url}</a>{" "}
+            <a href={blog.url}> {blog.url}</a>
           </div>
           <div>
-            likes {blog.likes} <button onClick={like}>like</button>
+            {blog.likes} likes <button onClick={like}>like</button>
           </div>
-          <div>{blog.user && blog.user.name}</div>
-          {canRemove && <button onClick={remove}>delete</button>}
+          <div>added by {blog.user.name ? blog.user.name : "unknown"} {canRemove && <button onClick={remove}>delete</button>}</div>
         </div>
-      )}
     </div>
   )
 }

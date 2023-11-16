@@ -1,3 +1,10 @@
+.home-blog-list {
+  list-style: none;
+  border-style: solid;
+  margin: 4px 0px 4px 0px;
+  padding-top: 5px;
+}
+
 .blog-list {
   list-style: none;
   padding: 0;
@@ -14,4 +21,8 @@
 
 .users {
   display: flex;
+}
+
+.user-logged-in {
+  padding: 16px 0px 16px 0px;
 }
