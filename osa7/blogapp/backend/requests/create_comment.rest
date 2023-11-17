@@ -1,0 +1,6 @@
+POST http://localhost:3003/api/blogs/6203a2e8e1c5c93ecaf7dffd/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "comment":"is this going to work for the last time?"
+}

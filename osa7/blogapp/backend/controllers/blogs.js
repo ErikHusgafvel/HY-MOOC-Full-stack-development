@@ -1,12 +1,34 @@
 const router = require("express").Router()
 const Blog = require("../models/blog")
+const Comment = require("../models/comment")
 
 const { userExtractor } = require("../utils/middleware")
 
 router.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 })
+  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 }).populate("comments")
 
   response.json(blogs)
+})
+
+router.post("/:id/comments", async (request, response) => {
+  const { comment } = request.body
+  let blog = await Blog.findById(request.params.id)
+
+  if (!comment || !blog) {
+    return response.status(400).json({
+      error: "Malformatted request. Check that the blog with given id exist. Did you forget to provide a comment?"
+    })
+  }
+
+  const newComment = new Comment({comment})
+  const createdComment = await newComment.save()
+
+  blog.comments = blog.comments.concat(createdComment._id)
+  await blog.save()
+
+  blog = await Blog.findById(request.params.id).populate("user", { username: 1, name: 1 }).populate("comments")
+
+  response.json(blog)
 })
 
 router.post("/", userExtractor, async (request, response) => {
@@ -45,7 +67,7 @@ router.put("/:id", async (request, response) => {
     { new: true }
   )
 
-  updatedBlog = await Blog.findById(updatedBlog._id).populate("user")
+  updatedBlog = await Blog.findById(updatedBlog._id).populate("user", { username: 1, name: 1 }).populate("comments")
 
   response.json(updatedBlog)
 })
