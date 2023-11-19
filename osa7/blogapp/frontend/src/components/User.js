@@ -1,5 +1,13 @@
 import React from "react"
 
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  Paper
+} from "@mui/material"
+
 const User = ({ userWithBlogs }) => {
   if(!userWithBlogs) {
     return null
@@ -9,12 +17,16 @@ const User = ({ userWithBlogs }) => {
     <div>
       <h2>{userWithBlogs.username}</h2>
       <div style={{fontWeight:"bold"}}>added blogs</div>
-      <ul>
-        {userWithBlogs.blogs.map(blog =>
-          <li key={blog.id}>
-            {blog.title}
-          </li>)}
-      </ul>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+          {userWithBlogs.blogs.map(blog =>
+            <TableRow key={blog.id}>
+              {blog.title}
+            </TableRow>)}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   )
 }

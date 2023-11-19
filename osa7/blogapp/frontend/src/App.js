@@ -15,6 +15,13 @@ import { setNotification } from "./reducers/notificationReducer"
 import { initializeBlogs, createNewBlog, likeBlog, removeBlog, createNewComment } from "./reducers/blogReducer"
 import { initializeUser, removeUser, saveUser } from "./reducers/userReducer"
 
+import {
+  Container,
+  AppBar,
+  Toolbar,
+  Button
+} from "@mui/material"
+
 const helper = require("./utils/helper")
 
 
@@ -81,36 +88,46 @@ const App = () => {
 
   if (!user) {
     return (
-      <div>
-        <h2>log in to application</h2>
-        <Notification />
-        <LoginForm login={login} />
-      </div>
+      <Container>
+        <div>
+          <h2>log in to application</h2>
+          <Notification />
+          <LoginForm login={login} />
+        </div>
+      </Container>
     )
   }
 
   return (
-    <div>
-      <div className="navigation-bar">
-        <Link to="/">blogs</Link>
-        <Link to="/users">users</Link>
-
-        {user.name} logged in
-        <button onClick={logout}>logout</button>
+    <Container>
+      <div id="navigation-bar">
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              home
+            </Button>
+            <Button color="inherit" component={Link} to="/users">
+              users
+            </Button>
+            <em>{user.name} logged in</em>
+            <Button color="inherit" onClick={logout}>
+              logout
+            </Button>
+          </Toolbar>
+        </AppBar>
       </div>
-      <div >
+      <div id="content">
+        <h2>blog app</h2>
+        <Notification />
+
+        <Routes>
+          <Route path='/users/:id' element={<User userWithBlogs={userWithBlogs} />} />
+          <Route path='/users' element={<Users blogs={[...blogs]} />} />
+          <Route path='/blogs/:id' element={<Blog blog={blog} like={() => like(blog)} canRemove={blog && user && blog.user.username === user.username} remove={() => remove(blog)} createComment={createComment}/> } />
+          <Route path='/' element={<Home blogs={blogs} blogFormRef={blogFormRef} createBlog={createBlog}/>} />
+        </Routes>
       </div>
-
-      <h2>blog app</h2>
-      <Notification />
-
-      <Routes>
-        <Route path='/users/:id' element={<User userWithBlogs={userWithBlogs} />} />
-        <Route path='/users' element={<Users blogs={[...blogs]} />} />
-        <Route path='/blogs/:id' element={<Blog blog={blog} like={() => like(blog)} canRemove={blog && user && blog.user.username === user.username} remove={() => remove(blog)} createComment={createComment}/> } />
-        <Route path='/' element={<Home blogs={blogs} blogFormRef={blogFormRef} createBlog={createBlog}/>} />
-      </Routes>
-    </div>
+    </Container>
   )
 }
 

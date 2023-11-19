@@ -1,7 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import "../App.css"
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper
+} from "@mui/material"
 
 const helper = require("../utils/helper")
 
@@ -14,18 +21,22 @@ const Users = ({ blogs }) => {
   return (
   <div>
     <h2>Users</h2>
-    <ul className="blog-list">
-        <li className="users-header-row">
-          <span style={{width:`${maxNameWidth}ch`}}></span>
-          <span style={{width:`${maxBlogsWidth}ch`}}>blogs created</span>
-        </li>
-        {userList.map(user =>
-        <li className="users" key={user.id}>
-          <span style={{width:`${maxNameWidth}ch`}}><Link to={`/users/${user.id}`}>{user.username}</Link></span>
-          <span style={{width:`${maxBlogsWidth}ch`}}>{user.blogs}</span>
-        </li>
-        )}
-    </ul>
+    <TableContainer component={Paper} className="blog-list">
+      <Table>
+        <TableBody>
+          <TableRow className="users-header-row">
+            <TableCell style={{width:`${maxNameWidth}ch`}}></TableCell>
+            <TableCell style={{width:`${maxBlogsWidth}ch`}}>blogs created</TableCell>
+          </TableRow>
+          {userList.map(user =>
+          <TableRow className="users" key={user.id}>
+            <TableCell style={{width:`${maxNameWidth}ch`}}><Link to={`/users/${user.id}`}>{user.username}</Link></TableCell>
+            <TableCell style={{width:`${maxBlogsWidth}ch`}}>{user.blogs}</TableCell>
+          </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
   </div>
   )
 }
