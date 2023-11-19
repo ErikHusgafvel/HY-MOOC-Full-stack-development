@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Comments from "./Comments"
 
-const Blog = ({ blog, like, canRemove, remove }) => {
+const Blog = ({ blog, like, canRemove, remove, createComment }) => {
   if (!blog) return null
 
   return (
@@ -17,8 +17,7 @@ const Blog = ({ blog, like, canRemove, remove }) => {
           </div>
           <div>added by {blog.user.name ? blog.user.name : "unknown"} {canRemove && <button onClick={remove}>delete</button>}</div>
         </div>
-        <Comments comments={blog.comments}/>
-
+        <Comments comments={blog.comments} createComment={createComment} id={blog.id}/>
     </div>
   )
 }

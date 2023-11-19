@@ -12,7 +12,7 @@ import Notification from "./components/Notification"
 import loginService from "./services/login"
 
 import { setNotification } from "./reducers/notificationReducer"
-import { initializeBlogs, createNewBlog, likeBlog, removeBlog } from "./reducers/blogReducer"
+import { initializeBlogs, createNewBlog, likeBlog, removeBlog, createNewComment } from "./reducers/blogReducer"
 import { initializeUser, removeUser, saveUser } from "./reducers/userReducer"
 
 const helper = require("./utils/helper")
@@ -24,6 +24,12 @@ const App = () => {
 
   const blogFormRef = useRef()
   const dispatch = useDispatch()
+
+  const userMatch = useMatch("/users/:id")
+  const userWithBlogs = userMatch ? helper.userWithBlogs(blogs, userMatch.params.id) : null
+
+  const blogMatch = useMatch("/blogs/:id")
+  const blog = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
 
   useEffect(() => {
     dispatch(initializeUser())
@@ -54,6 +60,10 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
   }
 
+  const createComment = async (id, comment) => {
+    await dispatch(createNewComment(id, comment))
+  }
+
   const like = async (blog) => {
     await dispatch(likeBlog(blog))
     dispatch(setNotification(`A like for the blog '${blog.title}' by '${blog.author}'`, "info", 5))
@@ -68,12 +78,6 @@ const App = () => {
       dispatch(setNotification(`The blog' ${blog.title}' by '${blog.author}' removed`, "info", 5))
     }
   }
-
-  const userMatch = useMatch("/users/:id")
-  const userWithBlogs = userMatch ? helper.userWithBlogs(blogs, userMatch.params.id) : null
-
-  const blogMatch = useMatch("/blogs/:id")
-  const blog = blogMatch ? blogs.find(blog => blog.id === blogMatch.params.id) : null
 
   if (!user) {
     return (
@@ -103,7 +107,7 @@ const App = () => {
       <Routes>
         <Route path='/users/:id' element={<User userWithBlogs={userWithBlogs} />} />
         <Route path='/users' element={<Users blogs={[...blogs]} />} />
-        <Route path='/blogs/:id' element={<Blog blog={blog} like={() => like(blog)} canRemove={blog && user && blog.user.username === user.username} remove={() => remove(blog)}/> } />
+        <Route path='/blogs/:id' element={<Blog blog={blog} like={() => like(blog)} canRemove={blog && user && blog.user.username === user.username} remove={() => remove(blog)} createComment={createComment}/> } />
         <Route path='/' element={<Home blogs={blogs} blogFormRef={blogFormRef} createBlog={createBlog}/>} />
       </Routes>
     </div>

@@ -1,10 +1,10 @@
 import React from "react"
+import CommentForm from "./NewComment"
 
-const Comments = ({ comments }) => {
-  if(comments.length > 0) {
-    return (
+const Comments = ({ comments, createComment, id }) => (
       <div>
         <h3>comments</h3>
+        <CommentForm id={id} createComment={createComment}/>
         <ul>
           {comments.map(comment =>
           <li key={comment.id}>{comment.comment}</li>
@@ -12,7 +12,5 @@ const Comments = ({ comments }) => {
         </ul>
       </div>
     )
-  } else return ""
-}
 
 export default Comments

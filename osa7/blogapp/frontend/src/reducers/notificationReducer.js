@@ -5,7 +5,6 @@ const notificationSlice = createSlice({
   initialState: [null, null, null],
   reducers: {
     invokeNotification(state, action) {
-      console.log('invokeNotification', JSON.parse(JSON.stringify(state)))
       const { message, type, timeoutID } = action.payload
       clearTimeout(state[2])
       return [message, type, timeoutID]

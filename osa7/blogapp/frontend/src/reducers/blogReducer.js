@@ -11,8 +11,7 @@ const blogSlice = createSlice({
     appendBlogs(state, action) {
       state.push(action.payload) // createSlice uses Immer-library under the hood, which enables the usage of .push() instead of .concat()
     },
-    likeIncrement(state, action) {
-      console.log("here", action.payload)
+    updateBlog(state, action) {
       return state.map((blog) => (blog.id === action.payload.id ? action.payload : blog))
     },
     remove(state, action) {
@@ -21,7 +20,7 @@ const blogSlice = createSlice({
   }
 })
 
-export const { setBlogs, appendBlogs, likeIncrement, remove } = blogSlice.actions
+export const { setBlogs, appendBlogs, updateBlog, remove } = blogSlice.actions
 
 export const initializeBlogs = () => {
   return async dispatch => {
@@ -41,7 +40,7 @@ export const likeBlog = (blog) => {
   return async dispatch => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id }
     const updatedBlog = await blogService.update(blogToUpdate)
-    dispatch(likeIncrement(updatedBlog))
+    dispatch(updateBlog(updatedBlog))
   }
 }
 
@@ -49,6 +48,13 @@ export const removeBlog = (blog) => {
   return async dispatch => {
     await blogService.remove(blog.id)
     dispatch(remove(blog))
+  }
+}
+
+export const createNewComment = (id, comment) => {
+  return async dispatch => {
+    const updatedBlog = await blogService.createComment({ id, comment })
+    dispatch(updateBlog(updatedBlog))
   }
 }
 

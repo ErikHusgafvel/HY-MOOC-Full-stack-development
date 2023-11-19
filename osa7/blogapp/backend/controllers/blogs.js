@@ -10,7 +10,7 @@ router.get("/", async (request, response) => {
   response.json(blogs)
 })
 
-router.post("/:id/comments", async (request, response) => {
+router.post("/:id/comments", userExtractor, async (request, response) => {
   const { comment } = request.body
   let blog = await Blog.findById(request.params.id)
 
@@ -18,6 +18,10 @@ router.post("/:id/comments", async (request, response) => {
     return response.status(400).json({
       error: "Malformatted request. Check that the blog with given id exist. Did you forget to provide a comment?"
     })
+  }
+
+  if (!request.user) {
+    return response.status(401).json({ error: "operation not permitted" })
   }
 
   const newComment = new Comment({comment})

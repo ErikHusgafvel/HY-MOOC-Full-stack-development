@@ -10,6 +10,7 @@ const headers = {
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)
+  console.log(response)
   return response.data
 }
 
@@ -29,4 +30,11 @@ const remove = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, { headers })
 }
 
-export default { getAll, create, update, remove }
+const createComment = async (object) => {
+  const response = await axios.post(`${baseUrl}/${object.id}/comments`, { comment: object.comment }, {
+    headers,
+  })
+  return response.data
+}
+
+export default { getAll, create, update, remove, createComment }
