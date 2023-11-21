@@ -1,6 +1,6 @@
 import { useEffect, useRef, React } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Routes, Route, Link, useMatch } from "react-router-dom"
+import { Routes, Route, useMatch } from "react-router-dom"
 
 import Home from "./components/Home"
 import Blog from "./components/Blog"
@@ -8,6 +8,7 @@ import Users from "./components/Users"
 import User from "./components/User"
 import LoginForm from "./components/Login"
 import Notification from "./components/Notification"
+import NavigationBar from "./components/Navigation-bar"
 
 import loginService from "./services/login"
 
@@ -16,11 +17,9 @@ import { initializeBlogs, createNewBlog, likeBlog, removeBlog, createNewComment 
 import { initializeUser, removeUser, saveUser } from "./reducers/userReducer"
 
 import {
-  Container,
-  AppBar,
-  Toolbar,
-  Button
+  Container
 } from "@mui/material"
+
 
 const helper = require("./utils/helper")
 
@@ -100,24 +99,9 @@ const App = () => {
 
   return (
     <Container>
-      <div id="navigation-bar">
-        <AppBar position="static">
-          <Toolbar>
-            <Button color="inherit" component={Link} to="/">
-              home
-            </Button>
-            <Button color="inherit" component={Link} to="/users">
-              users
-            </Button>
-            <em>{user.name} logged in</em>
-            <Button color="inherit" onClick={logout}>
-              logout
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+      <NavigationBar logout={logout} user={user} />
+
       <div id="content">
-        <h2>blog app</h2>
         <Notification />
 
         <Routes>

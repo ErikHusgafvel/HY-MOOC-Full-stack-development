@@ -21,7 +21,7 @@ const Users = ({ blogs }) => {
   return (
   <div>
     <h2>Users</h2>
-    <TableContainer component={Paper} className="blog-list">
+    <TableContainer component={Paper} variant="outlined">
       <Table>
         <TableBody>
           <TableRow className="users-header-row">

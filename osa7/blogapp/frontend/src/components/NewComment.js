@@ -1,7 +1,9 @@
 import { React, useState} from "react"
 
 import {
-  TextField, Button } from "@mui/material"
+  TextField,
+  Button
+} from "@mui/material"
 
 const CommentForm = ({ id, createComment }) => {
   const [comment, setComment] = useState("")
@@ -15,13 +17,16 @@ const CommentForm = ({ id, createComment }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <TextField
-          id="comment"
-          label="add a new comment"
-          value={comment}
-          onChange={({ target }) => setComment(target.value)}
-        />
-        <Button type="submit">add comment</Button>
+        <div display="container">
+          <TextField
+            size="small"
+            id="comment"
+            label="add a new comment"
+            value={comment}
+            onChange={({ target }) => setComment(target.value)}
+          />
+          <Button type="submit">add comment</Button>
+        </div>
       </form>
     </div>
   )

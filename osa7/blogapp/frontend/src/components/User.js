@@ -1,12 +1,12 @@
 import React from "react"
 
 import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  Paper
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon
 } from "@mui/material"
+import FolderIcon from "@mui/icons-material/Folder"
 
 const User = ({ userWithBlogs }) => {
   if(!userWithBlogs) {
@@ -16,17 +16,18 @@ const User = ({ userWithBlogs }) => {
   return (
     <div>
       <h2>{userWithBlogs.username}</h2>
-      <div style={{fontWeight:"bold"}}>added blogs</div>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
+      <h4>added blogs</h4>
+      <List dense={true}>
           {userWithBlogs.blogs.map(blog =>
-            <TableRow key={blog.id}>
-              {blog.title}
-            </TableRow>)}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            <ListItem key={blog.id}>
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={blog.title}
+              />
+            </ListItem>)}
+      </List>
     </div>
   )
 }
