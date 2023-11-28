@@ -1,6 +1,7 @@
 import BirthyearForm from "./SetBirthyear"
+import Notify from "./Notify"
 
-const Authors = ({ show, authors }) => {
+const Authors = ({ show, authors, errorMessage, setError }) => {
   if (!show) {
     return null
   }
@@ -16,6 +17,7 @@ const Authors = ({ show, authors }) => {
 
   return (
     <div>
+      <Notify errorMessage={errorMessage} />
       <h2>authors</h2>
       <table>
         <tbody>
@@ -33,7 +35,7 @@ const Authors = ({ show, authors }) => {
           ))}
         </tbody>
       </table>
-      <BirthyearForm authors={authors} />
+      <BirthyearForm authors={authors} setError={setError} />
     </div>
   )
 }

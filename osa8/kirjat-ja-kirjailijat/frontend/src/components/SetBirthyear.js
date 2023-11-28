@@ -3,11 +3,15 @@ import { useMutation } from "@apollo/client"
 
 import { EDIT_AUTHOR } from "../mutations"
 
-const BirthyearForm = ({ authors }) => {
+const BirthyearForm = ({ authors, setError }) => {
   const [name, setName] = useState("")
   const [year, setYear] = useState("")
 
-  const [changeYear] = useMutation(EDIT_AUTHOR)
+  const [changeYear] = useMutation(EDIT_AUTHOR, {
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message)
+    },
+  })
 
   const submit = async (event) => {
     event.preventDefault()

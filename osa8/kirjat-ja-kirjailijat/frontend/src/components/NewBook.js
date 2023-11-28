@@ -4,6 +4,9 @@ import { useMutation } from "@apollo/client"
 import { CREATE_BOOK } from "../mutations"
 import { ALL_AUTHORS, ALL_BOOKS } from "../queries"
 
+import Notify from "./Notify"
+import { printIntrospectionSchema } from "graphql"
+
 const NewBook = (props) => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -13,6 +16,9 @@ const NewBook = (props) => {
 
   const [createPerson] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+    onError: (error) => {
+      props.setError(error.graphQLErrors[0].message)
+    },
   })
 
   if (!props.show) {
@@ -21,8 +27,6 @@ const NewBook = (props) => {
 
   const submit = async (event) => {
     event.preventDefault()
-
-    console.log("add book...")
 
     createPerson({
       variables: { title, published: Number(published), author, genres },
@@ -41,6 +45,7 @@ const NewBook = (props) => {
 
   return (
     <div>
+      <Notify errorMessage={props.errorMessage} />
       <form onSubmit={submit}>
         <div>
           title
