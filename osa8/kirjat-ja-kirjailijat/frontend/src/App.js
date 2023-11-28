@@ -11,6 +11,7 @@ const App = () => {
   const [page, setPage] = useState("authors")
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
+  const [genre, setGenre] = useState("all")
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
   const client = useApolloClient()
@@ -27,6 +28,10 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
     setPage("authors")
+  }
+
+  const handleClick = (genreToChange) => {
+    setGenre(genreToChange)
   }
 
   return (
@@ -51,7 +56,12 @@ const App = () => {
         setError={notify}
       />
 
-      <Books show={page === "books"} books={books} />
+      <Books
+        show={page === "books"}
+        books={books}
+        setGenre={handleClick}
+        genre={genre}
+      />
 
       <Login
         show={page === "login"}
