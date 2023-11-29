@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Authors from "./components/Authors"
 import Books from "./components/Books"
 import NewBook from "./components/NewBook"
@@ -6,7 +6,7 @@ import Login from "./components/Login"
 import Recommendations from "./components/Recommendations"
 import { useApolloClient, useQuery } from "@apollo/client"
 
-import { ALL_AUTHORS, ALL_BOOKS, ME } from "./queries"
+import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_GENRES, ME } from "./queries"
 
 const App = () => {
   const [page, setPage] = useState("authors")
@@ -16,9 +16,12 @@ const App = () => {
       ? localStorage.getItem("library-user-token")
       : null
   )
-  const [genre, setGenre] = useState("all")
+  const [genre, setGenre] = useState("")
   const authors = useQuery(ALL_AUTHORS)
-  const books = useQuery(ALL_BOOKS)
+  const allGenres = useQuery(ALL_BOOKS_GENRES)
+  const books = useQuery(ALL_BOOKS, {
+    variables: { genre: genre },
+  })
   const me = useQuery(ME)
   const client = useApolloClient()
 
@@ -38,6 +41,7 @@ const App = () => {
 
   const handleClick = (genreToChange) => {
     setGenre(genreToChange)
+    books.refetch()
   }
 
   return (
@@ -66,6 +70,7 @@ const App = () => {
       <Books
         show={page === "books"}
         books={books}
+        allGenres={allGenres}
         setGenre={handleClick}
         genre={genre}
       />
