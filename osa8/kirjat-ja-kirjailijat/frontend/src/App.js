@@ -87,6 +87,7 @@ const App = () => {
         show={page === "add"}
         errorMessage={errorMessage}
         setError={notify}
+        genreState={genre}
       />
 
       <Recommendations show={page === "recommend"} books={books} me={me} />

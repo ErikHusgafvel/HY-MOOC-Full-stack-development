@@ -2,10 +2,9 @@ import { useState } from "react"
 import { useMutation } from "@apollo/client"
 
 import { CREATE_BOOK } from "../mutations"
-import { ALL_AUTHORS, ALL_BOOKS } from "../queries"
+import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_GENRES } from "../queries"
 
 import Notify from "./Notify"
-import { printIntrospectionSchema } from "graphql"
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("")
@@ -15,7 +14,11 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [createPerson] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+    refetchQueries: [
+      { query: ALL_AUTHORS },
+      { query: ALL_BOOKS, variables: { genre: props.genreState } },
+      { query: ALL_BOOKS_GENRES },
+    ],
     onError: (error) => {
       props.setError(error.graphQLErrors[0].message)
     },
