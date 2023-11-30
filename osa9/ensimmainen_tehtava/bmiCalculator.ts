@@ -1,4 +1,4 @@
-const calculateBmi = (
+export const calculateBmi = (
   heightCentimeters: number,
   weightKilograms: number
 ): string => {
