@@ -1,0 +1,7 @@
+{
+  "eslint.workingDirectories": [
+    "./osa9/ensimmainen_tehtava",
+    "./osa9/patientor/patientor-backend",
+    "./osa9/patientor/patientor-frontend"
+  ]
+}
