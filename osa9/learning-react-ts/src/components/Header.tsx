@@ -1,8 +1,6 @@
-interface Header {
-  content: string;
-}
+import { HeaderInterface } from '../types';
 
-const Header = (props: Header) => {
+const Header = (props: HeaderInterface) => {
   return <h1>{props.content}</h1>;
 };
 
