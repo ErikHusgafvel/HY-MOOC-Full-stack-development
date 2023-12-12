@@ -1,3 +1,6 @@
 [submodule "osa9/patientor/patientor-frontend"]
 	path = osa9/patientor/patientor-frontend
 	url = https://github.com/ErikHusgafvel/patientor-frontend.git
+[submodule "osa9/flight-diary/flight-diary-backend"]
+	path = osa9/flight-diary/flight-diary-backend
+	url = https://github.com/ErikHusgafvel/flight-diary-backend.git
