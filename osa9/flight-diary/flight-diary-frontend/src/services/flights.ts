@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
-import { nonSensitiveFlightDiaryEntry } from '../types';
+import { nonSensitiveFlightDiaryEntry, NewFlightDiaryEntry } from '../types';
 
-const getAll = async () => {
-  //console.log(`Getting data from ${apiBaseUrl}/diaries`);
-  const { data } = await axios.get<nonSensitiveFlightDiaryEntry[]>(
-    `${apiBaseUrl}/diaries`
-  );
-
-  return data;
+export const getAllFlights = () => {
+  return axios
+    .get<nonSensitiveFlightDiaryEntry[]>(apiBaseUrl)
+    .then((response) => response.data);
 };
 
-export default { getAll };
+export const createFlight = (object: NewFlightDiaryEntry) => {
+  return axios
+    .post<NewFlightDiaryEntry>(apiBaseUrl, object)
+    .then((response) => response.data);
+};
