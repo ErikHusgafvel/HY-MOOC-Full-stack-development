@@ -9,7 +9,6 @@ const Notification = ({ message }: Props) => {
 
   const errorStyle = {
     color: 'red',
-    font: 20,
     background: 'lightgrey',
     border: 'solid',
     padding: 10,

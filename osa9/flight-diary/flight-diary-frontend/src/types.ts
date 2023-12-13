@@ -13,7 +13,7 @@ export enum Visibility {
   Poor = 'poor',
 }
 
-interface FlightDiaryEntry {
+export interface FlightDiaryEntry {
   id: number;
   date: string;
   weather: Weather;

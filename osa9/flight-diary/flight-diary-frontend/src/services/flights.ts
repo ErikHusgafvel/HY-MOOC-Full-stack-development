@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
-import { nonSensitiveFlightDiaryEntry, NewFlightDiaryEntry } from '../types';
+import {
+  FlightDiaryEntry,
+  nonSensitiveFlightDiaryEntry,
+  NewFlightDiaryEntry,
+} from '../types';
 
 export const getAllFlights = () => {
   return axios
@@ -10,6 +14,6 @@ export const getAllFlights = () => {
 
 export const createFlight = (object: NewFlightDiaryEntry) => {
   return axios
-    .post<NewFlightDiaryEntry>(apiBaseUrl, object)
+    .post<FlightDiaryEntry>(apiBaseUrl, object)
     .then((response) => response.data);
 };

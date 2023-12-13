@@ -8,6 +8,8 @@ import {
   Visibility,
 } from '../types';
 
+import './DiaryEntryForm.css';
+
 interface Props {
   flights: nonSensitiveFlightDiaryEntry[];
   setFlights: React.Dispatch<
@@ -18,8 +20,10 @@ interface Props {
 
 const DiaryEntryForm = ({ flights, setFlights, setError }: Props) => {
   const [date, setDate] = React.useState('');
-  const [weather, setWeather] = React.useState('');
-  const [visibility, setVisibility] = React.useState('');
+  const [weather, setWeather] = React.useState(Object.values(Weather)[0]);
+  const [visibility, setVisibility] = React.useState(
+    Object.values(Visibility)[0]
+  );
   const [comment, setComment] = React.useState('');
 
   const setErrorMessage = (message: string, timeoutMs?: number | undefined) => {
@@ -36,13 +40,13 @@ const DiaryEntryForm = ({ flights, setFlights, setError }: Props) => {
     event.preventDefault();
     const diaryEntryToAdd: NewFlightDiaryEntry = {
       date,
-      weather: weather as Weather,
-      visibility: visibility as Visibility,
+      weather,
+      visibility,
       comment,
     };
     try {
-      const nonSensitiveFlightDiaryEntry = await createFlight(diaryEntryToAdd);
-      setFlights(flights.concat(nonSensitiveFlightDiaryEntry));
+      const nonSensitiveFlightEntry = await createFlight(diaryEntryToAdd);
+      setFlights(flights.concat(nonSensitiveFlightEntry));
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
         if (e?.response?.data && typeof e?.response?.data === 'string') {
@@ -59,8 +63,8 @@ const DiaryEntryForm = ({ flights, setFlights, setError }: Props) => {
       }
     }
     setDate('');
-    setWeather('');
-    setVisibility('');
+    setWeather(Object.values(Weather)[0]);
+    setVisibility(Object.values(Visibility)[0]);
     setComment('');
   };
 
@@ -68,34 +72,60 @@ const DiaryEntryForm = ({ flights, setFlights, setError }: Props) => {
     <div>
       <form onSubmit={addDiaryEntry}>
         <div>
-          Date
-          <input
-            label="Date"
-            placeholder="YYYY-MM-DD"
-            value={date}
-            onChange={({ target }) => setDate(target.value)}
-          />
+          <label>
+            Date:
+            <input
+              type="date"
+              placeholder={new Date().toISOString().slice(0, 10)}
+              max={new Date().toISOString().slice(0, 10)}
+              value={date}
+              onChange={({ target }) => {
+                setDate(target.value);
+              }}
+              required
+            />
+            <span></span>
+          </label>
         </div>
         <div>
-          Weather
-          <input
-            label="Weather"
-            value={weather}
-            onChange={({ target }) => setWeather(target.value)}
-          />
+          <label>
+            Weather:
+            {Object.values(Weather).map((value, index) => (
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="weather"
+                  id={value}
+                  value={value}
+                  checked={weather === value}
+                  onChange={() => setWeather(value)}
+                />
+                {value}
+              </label>
+            ))}
+          </label>
         </div>
         <div>
-          Visibility
-          <input
-            label="Visibility"
-            value={visibility}
-            onChange={({ target }) => setVisibility(target.value)}
-          />
+          <label>
+            Visibility:
+            {Object.values(Visibility).map((value, index) => (
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="visibility"
+                  id={value}
+                  value={value}
+                  checked={visibility === value}
+                  onChange={() => setVisibility(value)}
+                />
+                {value}
+              </label>
+            ))}
+          </label>
         </div>
         <div>
-          Comment
+          Comment:
           <input
-            label="Comment"
             value={comment}
             onChange={({ target }) => setComment(target.value)}
           />
