@@ -4,16 +4,20 @@ export type Diagnosis = {
   latin?: string;
 };
 
-export type Patient = {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Entry {}
+
+export interface Patient {
   id: string;
   name: string;
-  dateOfBirth: string;
   ssn: string;
-  gender: Gender;
   occupation: string;
-};
+  gender: Gender;
+  dateOfBirth: string;
+  entries: Entry[];
+}
 
-export type nonSensitivePatient = Omit<Patient, 'ssn'>;
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
 
 export type PatientEntry = Omit<Patient, 'id'>;
 
