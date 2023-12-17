@@ -2,11 +2,11 @@ import { Patient, NonSensitivePatient, PatientEntry } from '../types';
 import patientData from '../data/patients';
 import { v1 as uuid } from 'uuid';
 
-const getEntries = (): Patient[] => {
+const getPatients = (): Patient[] => {
   return patientData;
 };
 
-const getNonSensitiveEntries = (): NonSensitivePatient[] => {
+const getNonSensitivePatients = (): NonSensitivePatient[] => {
   return patientData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
     name,
@@ -26,14 +26,14 @@ const addPatient = (entry: PatientEntry): Patient => {
   return newPatient;
 };
 
-const findById = (id: string): Patient | undefined => {
+const findPatientById = (id: string): Patient | undefined => {
   const entry = patientData.find((patient) => patient.id === id);
-  return entry;
+  return entry; // error handling taken care in '../routes/patients'
 };
 
 export default {
-  getEntries,
-  getNonSensitiveEntries,
+  getPatients,
+  getNonSensitivePatients,
   addPatient,
-  findById,
+  findPatientById,
 };

@@ -5,12 +5,12 @@ import toNewPatientEntry from '../utils';
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-  res.send(patientService.getNonSensitiveEntries());
+  res.send(patientService.getNonSensitivePatients());
 });
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  const patient = patientService.findById(id);
+  const patient = patientService.findPatientById(id);
   if (patient) {
     return res.send(patient);
   } else {

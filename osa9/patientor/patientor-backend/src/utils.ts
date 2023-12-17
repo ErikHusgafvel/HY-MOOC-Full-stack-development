@@ -1,4 +1,4 @@
-import { PatientEntry, Gender } from './types';
+import { PatientEntry, Gender, Entry } from './types';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -15,7 +15,33 @@ const isGender = (text: string): text is Gender => {
 };
 
 const isObject = (obj: unknown): obj is object => {
-  return typeof obj === 'object' || obj instanceof Object;
+  return (typeof obj === 'object' && obj !== null) || obj instanceof Object;
+};
+
+const isArray = (obj: unknown): obj is Array<unknown> => {
+  console.log('isArray', obj);
+  console.log(Array.isArray(obj));
+  return Array.isArray(obj);
+};
+
+const isEntry = (entry: unknown): boolean => {
+  if (
+    !entry ||
+    !isObject(entry) ||
+    !('type' in entry) ||
+    !isString(entry.type) ||
+    !['HealthCheck', 'Hospital', 'OccupationalHealthcare'].includes(entry.type)
+  )
+    return false;
+
+  return true;
+};
+
+const areEntries = (entries: Array<unknown>): entries is Array<Entry> => {
+  if (entries.length === 0 || entries.every((entry) => isEntry(entry)))
+    return true;
+
+  return false;
 };
 
 const parseName = (name: unknown): string => {
@@ -53,6 +79,13 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
+const parseEntries = (entries: unknown): Array<Entry> => {
+  if (!entries || !isArray(entries) || !areEntries(entries)) {
+    throw new Error('Incorrect or missing entries');
+  }
+  return entries;
+};
+
 const toNewPatientEntry = (obj: unknown): PatientEntry => {
   if (!obj || !isObject(obj)) {
     throw new Error('Incorrect or missing data');
@@ -63,7 +96,8 @@ const toNewPatientEntry = (obj: unknown): PatientEntry => {
     'dateOfBirth' in obj &&
     'ssn' in obj &&
     'gender' in obj &&
-    'occupation' in obj
+    'occupation' in obj &&
+    'entries' in obj
   ) {
     const newPatientEntry: PatientEntry = {
       name: parseName(obj.name),
@@ -71,7 +105,7 @@ const toNewPatientEntry = (obj: unknown): PatientEntry => {
       ssn: parseSSN(obj.ssn),
       gender: parseGender(obj.gender),
       occupation: parseOccupation(obj.occupation),
-      entries: [],
+      entries: parseEntries(obj.entries),
     };
     return newPatientEntry;
   }
