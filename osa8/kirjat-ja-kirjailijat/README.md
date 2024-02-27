@@ -1,4 +1,4 @@
-# GraphQL Full stack Books and Authors -app :octocat:
+# :octocat: GraphQL Full stack Books and Authors -app :octocat:
 
 Front- and backend solutions with emphasis on utilizing GraphQL. With the app, user can examine authors and books saved in the database, login, and add books to store. Application relies on client-side session management.
 
